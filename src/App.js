@@ -47,7 +47,7 @@ function App() {
   console.log("location", location)
   return (
     <>
-      <Header location={location} />
+      <Header location={location}/>
       <Router>
         <div className={classes.root}>
           <ul>
