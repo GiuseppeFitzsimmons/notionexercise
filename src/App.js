@@ -1,20 +1,30 @@
 import React from 'react';
-import ReactDOM from "react-dom";
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Header from './widgets/header'
 import './App.css';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import { History } from '@material-ui/icons';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import Badge from '@material-ui/core/Badge';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { ExitToApp } from '@material-ui/icons';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { blue, orange, cyan, grey } from '@material-ui/core/colors';
+
+const notionsTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: blue[500]
+    },
+    secondary: {
+      main: orange[500]
+    },
+    label: blue[800],
+    salutation: grey[700]
+  }
+})
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,10 +42,25 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 3,
     color: 'blue'
   },
-  salutation: {
-    flexGrow: 1,
-    color: 'black',
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+  button: {
+    border: `2pt solid ${cyan[500]}`,
+    flex: '0 0 50%',
+    width: '400px',
+    flexDirection: 'row',
+    padding: '18px',
+    marginBottom: '23px',
+    color: grey[700],
     fontStyle: 'bold'
+  },
+  buttonIcon: {
+    flexGrow: 0,
+    flexBasis: '60px',
+    color: cyan[500]
   }
 }));
 
@@ -44,48 +69,64 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const [location, setLocation] = React.useState('home')
-  console.log("location", location)
+
   return (
     <>
-      <Header location={location} />
-      <Router>
-        <div className={classes.root}>
-          <ul>
-            <Button onClick={() => { setLocation('home') }}>
-              Home Page
-              <Redirect to="/" />
-            </Button>
-          </ul>
-          <Switch>
-            <Route exact path="/">
-              <Home state={'home'} />
-            </Route>
-            <Route path="/interventions">
-              <Interventions />
-              <Button onClick={() => { setLocation('interventions') }}>
-                <Link to="/interventions"> INTERVENTIONS </Link>
-              </Button>
-            </Route>
-          </Switch>
-          <Fab color="primary" aria-label="add" className={classes.floatingButton} >
-            <AddIcon />
-          </Fab>
-        </div>
-      </Router>
+      <MuiThemeProvider theme={notionsTheme}>
+        <Header location={location} />
+        <Router>
+          <div className={classes.root}>
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/interventions">
+                <Interventions />
+              </Route>
+            </Switch>
+            <Fab color='primary' aria-label='Add' className={classes.floatingButton}>
+              <AddIcon />
+            </Fab>
+          </div>
+        </Router>
+      </MuiThemeProvider>
     </>
   );
   function Home(props) {
+    setLocation('home')
     return (
-      <div>
-        <h2>Home</h2>
-        <Button onClick={() => { setLocation('interventions') }}>
-          <Redirect to="/interventions" />
+      <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1, flexDirection: 'column', marginTop: '25%' }}>
+        <Link to="/interventions">
+          <Button className={classes.button}>
+            <Badge
+              badgeContent={4}
+              color="secondary"
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0
+              }}
+            />
+            <ArrowForwardIcon className={classes.buttonIcon} />
+            <div style={{ flexGrow: 1 }}>
+              Interventions
+            </div>
+          </Button>
+
+        </Link>
+        <Button className={classes.button}>
+          <History className={classes.buttonIcon} />
+          <div style={{ flexGrow: 1 }}>
+            Historique
+          </div>
+
         </Button>
       </div>
     );
   }
 
   function Interventions(props) {
+    setLocation('interventions')
     return (
       <div />
     );
