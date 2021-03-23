@@ -35,17 +35,9 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(4),
     right: theme.spacing(4)
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
     flexGrow: 3,
     color: 'blue'
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
   },
   button: {
     border: `2pt solid ${cyan[500]}`,
