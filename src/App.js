@@ -47,7 +47,7 @@ function App() {
   console.log("location", location)
   return (
     <>
-      <Header location={location}/>
+      <Header location={location} />
       <Router>
         <div className={classes.root}>
           <ul>
@@ -67,6 +67,9 @@ function App() {
               </Button>
             </Route>
           </Switch>
+          <Fab color="primary" aria-label="add" className={classes.floatingButton} >
+            <AddIcon />
+          </Fab>
         </div>
       </Router>
     </>
